@@ -9,9 +9,7 @@ namespace TestCoreAPI.Controllers
         [HttpGet(Name = "simpleMath")]
         public String simpleMath(int operandOne, int operandTwo, char operation)
         {
-            int result = operandOne + operandTwo;
 
-            return result.ToString();
         }
     }
 }

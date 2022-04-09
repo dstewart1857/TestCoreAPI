@@ -4,9 +4,9 @@ namespace TestCoreAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HelloWorldController : ControllerBase
+    public class HelloController : ControllerBase
     {
-        [HttpGet(Name = "helloWorld")]
+        [HttpGet(Name = "hello")]
         public String helloWorld(String name)
         {
             return "Hello " + name;
