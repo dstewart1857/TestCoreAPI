@@ -7,9 +7,11 @@ namespace TestCoreAPI.Controllers
     public class SimpleMathController : Controller
     {
         [HttpGet(Name = "simpleMath")]
-        public String simpleMath(int operandOne, int operandTwo, char operation)
+        public int simpleMath(int operandOne, int operandTwo, char operation)
         {
+            int result = operandOne + operandTwo;
 
+            return result;
         }
     }
 }
