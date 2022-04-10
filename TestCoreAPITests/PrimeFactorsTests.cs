@@ -1,25 +1,26 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using System;
 using TestCoreAPI.MathHelpers;
 
-namespace TestCoreAPI.Tests
+namespace TestCoreAPITests
 {
-    [TestFixture]   
-    public class PrimeFactorsTests
+    [TestFixture]
+    public class Tests
     {
-        private PrimeFactors primeFactors;
+        private PrimeFactors primeFactors = new PrimeFactors();
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
             primeFactors = new PrimeFactors();
         }
 
         [Test]
-        public void primesOf1()
+        public void PrimesOf1()
         {
             String target = "1 = 1";
 
-            String result = primeFactors.getPrimeFactorsAsEquation(1);
+            String result = primeFactors.GetPrimeFactorsAsEquation(1);
 
             Assert.IsTrue(result.CompareTo(target) == 0, "The result should equal: " + target);
         }

@@ -11,7 +11,7 @@ namespace TestCoreAPI.Controllers
         public String primeFactorsEquation(int number)
         {
             PrimeFactors primeFactors = new PrimeFactors();
-            return primeFactors.getPrimeFactorsAsEquation(number);
+            return primeFactors.GetPrimeFactorsAsEquation(number);
         }
     }
 }

@@ -4,9 +4,27 @@ namespace TestCoreAPI.MathHelpers
 {
     public class PrimeFactors
     {
-        internal string getPrimeFactorsAsEquation(int number)
+        public string GetPrimeFactorsAsEquation(int number)
         {
-            throw new NotImplementedException();
+            List<int> primeFactors = GetPrimeFactors(number);
+            String result = String.Empty;
+
+            primeFactors.ForEach(factor => result += factor + " * ");
+
+            result = result.Substring(0, result.Length - 2);
+
+            result += "= " + number;
+            
+            return result;
+        }
+
+        public List<int> GetPrimeFactors(int number)
+        {
+            List<int> primeFactors = new List<int>();
+
+            primeFactors.Add(number);
+
+            return primeFactors;
         }
     }
 }
