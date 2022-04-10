@@ -9,7 +9,7 @@ namespace TestCoreAPI.MathHelpers
             List<int> primeFactors = GetPrimeFactors(number);
             String result = String.Empty;
 
-            primeFactors.ForEach(factor => result += factor + " * ");
+            primeFactors.ForEach(factor => result += factor + " x ");
 
             result = result.Substring(0, result.Length - 2);
 
