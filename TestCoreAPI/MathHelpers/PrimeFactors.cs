@@ -25,7 +25,7 @@ namespace TestCoreAPI.MathHelpers
             List<int> primeFactors = new List<int>();
 
             primeFactors.Add(number);
-
+            
             return primeFactors;
         }
     }
