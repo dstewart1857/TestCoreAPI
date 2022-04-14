@@ -2,9 +2,9 @@
 {
     public class TestDTO
     {
-        public String studentName;
-        public String className;
-        public String testName;
-        public int score;
+        public String studentName { get; set; }
+        public String className { get; set; }
+        public String testName { get; set; }
+        public int score { get; set; }
     }
 }

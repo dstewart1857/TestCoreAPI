@@ -2,8 +2,8 @@
 {
     public class ReportCardDTO
     {
-        public String studentName;
-        public String className;
-        public String grade;
+        public String studentName { get; set; }
+        public String className { get; set; }
+        public String grade { get; set; }
     }
 }

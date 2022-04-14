@@ -25,7 +25,7 @@ namespace TestCoreAPITests
         }
 
         [Test]
-        public void Test_GradeTest()
+        public void Test_GradeTest_A()
         {
             ReportCardDTO reportCard =reportCardService.GradeTest(testDTO);
 

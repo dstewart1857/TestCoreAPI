@@ -6,7 +6,7 @@ namespace TestCoreAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ReportCardController : ControllerBase
+    public class ReportCardController : Controller
     {
         private ReportCardService reportCardService = new ReportCardService();
 
