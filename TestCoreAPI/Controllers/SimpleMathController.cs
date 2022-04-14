@@ -6,12 +6,38 @@ namespace TestCoreAPI.Controllers
     [Route("[controller]")]
     public class SimpleMathController : Controller
     {
+
         [HttpGet(Name = "simpleMath")]
-        public int simpleMath(int operandOne, int operandTwo, char operation)
+        public float simpleMath(float operandOne, float operandTwo, char operation)
         {
-            int result = operandOne + operandTwo;
+            float result;
+
+            switch (Char.ToUpper(operation))
+            {
+                case 'S':
+                {
+                    result = operandOne - operandTwo;
+                    break;
+                }
+                case 'M':
+                {
+                    result = operandOne * operandTwo;
+                    break;
+                }
+                case 'R':
+                {
+                    result = operandOne % operandTwo;
+                    break;
+                }
+                default:
+                {
+                    result = operandOne + operandTwo;
+                    break;
+                }
+            }
 
             return result;
         }
+
     }
 }

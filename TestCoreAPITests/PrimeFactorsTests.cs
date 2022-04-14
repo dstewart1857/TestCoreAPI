@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System;
 using TestCoreAPI.MathHelpers;
+using System.Collections.Generic;
+
 
 namespace TestCoreAPITests
 {
@@ -15,6 +17,40 @@ namespace TestCoreAPITests
             primeFactors = new PrimeFactors();
         }
 
+        [Test]
+        [TestCase(1, "1")]
+        [TestCase(2, "2")]
+        [TestCase(3, "3")]
+        [TestCase(4, "2,2")]
+        [Parallelizable(ParallelScope.All)]
+        public void PrimeFactorsOfNumber(int testNumber, String expected)
+        {
+            List<int> resultList = primeFactors.GetPrimeFactors(testNumber);
+            String result = String.Join(",", resultList);
+            if (result.CompareTo(expected) == 0)
+            {
+                Console.WriteLine(result);
+            }
+            Assert.IsTrue(result.CompareTo(expected) == 0, "The result should equal: " + expected + " but it was: " + result);
+        }
+
+        [Test]
+        [TestCase(1, "1 = 1")]
+        [TestCase(2, "2 = 2")]
+        [TestCase(3, "3 = 3")]
+        [TestCase(4, "2 x 2 = 4")]
+        [Parallelizable(ParallelScope.All)]
+        public void PrimeFactorsEquationOfNumber(int testNumber, String expected)
+        {
+            String result = primeFactors.GetPrimeFactorsAsEquation(testNumber);
+            if (result.CompareTo(expected) == 0)
+            {
+                Console.WriteLine(result);
+            }
+            Assert.IsTrue(result.CompareTo(expected) == 0, "The result should equal: " + expected + " but it was: " + result);
+        }
+
+       
         [Test]
         public void PrimesOf1()
         {
@@ -34,7 +70,7 @@ namespace TestCoreAPITests
 
             Assert.IsTrue(result.CompareTo(target) == 0, "The result should equal: " + target + " but it was: " + result);
         }
-
+        
         [Test]
         public void PrimesOf3()
         {

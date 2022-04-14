@@ -9,7 +9,7 @@ namespace TestCoreAPI.Controllers
         [HttpGet(Name = "hello")]
         public String helloWorld(String name)
         {
-            return "Hello " + name;
+            return "Hello " + name + "\n\nHave a GREAT DAY!!!";
         }
     }
 }
