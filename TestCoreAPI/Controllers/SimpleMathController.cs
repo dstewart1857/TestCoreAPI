@@ -4,7 +4,7 @@ namespace TestCoreAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SimpleMathController : Controller
+    public class SimpleMathController : ControllerBase
     {
 
         [HttpGet(Name = "simpleMath")]

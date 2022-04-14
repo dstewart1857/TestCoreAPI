@@ -5,7 +5,7 @@ namespace TestCoreAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PrimeFactorController : Controller
+    public class PrimeFactorController : ControllerBase
     {
         [HttpGet(Name = "primeFactorsEquation")]
         public String primeFactorsEquation(int number)
