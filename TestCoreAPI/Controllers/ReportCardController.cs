@@ -11,9 +11,15 @@ namespace TestCoreAPI.Controllers
         private ReportCardService reportCardService = new ReportCardService();
 
         [HttpPost(Name = "gradeTest")]
-        public ReportCardDTO gradeTest([FromBody]TestDTO testDTO)
+        public ReportCardDTO gradeTest(TestDTO testDTO)
         {
             return reportCardService.GradeTest(testDTO);
+        }
+
+        [HttpPost(Name = "sortGrades")]
+        public List<ReportCardDTO> sortGrades(List<TestDTO> testDTOList, int sortMethod)
+        {
+            return reportCardService.sortGrades(testDTOList, sortMethod);
         }
     }
 }
