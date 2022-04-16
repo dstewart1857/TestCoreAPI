@@ -10,7 +10,7 @@ using TestCoreAPI.Service;
 namespace TestCoreAPITests
 {
     [TestFixture]
-    internal class Challenge7Tests
+    internal class ReportCardSerciceTests
     {
         public List<TestDTO> testDTOs = new List<TestDTO>();
         public ReportCardService reportCardService = new ReportCardService();
@@ -47,6 +47,17 @@ namespace TestCoreAPITests
             Assert.IsTrue(reportCardDTOs.ElementAt(1).grade.CompareTo("C") == 0, "Grade should equal 'C'");
             Assert.IsTrue(reportCardDTOs.ElementAt(2).grade.CompareTo("D") == 0, "Grade should equal 'D'");
             Assert.IsTrue(reportCardDTOs.ElementAt(3).grade.CompareTo("F") == 0, "Grade should equal 'F'");
+        }
+
+        [Test]
+        public void submitTests()
+        {
+            List<TestDTO> testDTOCollection = new List<TestDTO>();
+            reportCardService.submitTests(testDTOs, testDTOCollection);
+            Assert.IsTrue(testDTOCollection.Count == 4, "Count should be 4");
+            reportCardService.submitTests(testDTOs, testDTOCollection);
+            Assert.IsTrue(testDTOCollection.Count == 8, "Count should be 8");
+
         }
     }
 }

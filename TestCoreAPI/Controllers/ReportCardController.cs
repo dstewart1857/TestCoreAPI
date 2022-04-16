@@ -9,6 +9,8 @@ namespace TestCoreAPI.Controllers
     public class ReportCardController : Controller
     {
         private ReportCardService reportCardService = new ReportCardService();
+        private List<TestDTO> testCollection = new List<TestDTO>(); 
+        
 
         [HttpPost(Name = "gradeTest")]
         public ReportCardDTO gradeTest(TestDTO testDTO)
@@ -16,10 +18,16 @@ namespace TestCoreAPI.Controllers
             return reportCardService.GradeTest(testDTO);
         }
 
-        [HttpPost(Name = "sortGrades")]
-        public List<ReportCardDTO> sortGrades(List<TestDTO> testDTOList, int sortMethod)
+        [HttpPost(Name = "submitTests")]
+        public void submitTests(List<TestDTO> newTests)
         {
-            return reportCardService.sortGrades(testDTOList, sortMethod);
+            reportCardService.submitTests(newTests, testCollection);
+        }
+
+        [HttpGet(Name = "getTests")]
+        public List<TestDTO> getTestCollection()
+        {
+            return testCollection;
         }
     }
 }
