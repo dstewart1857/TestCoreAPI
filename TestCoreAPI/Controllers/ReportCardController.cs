@@ -9,7 +9,7 @@ namespace TestCoreAPI.Controllers
     public class ReportCardController : Controller
     {
         private ReportCardService reportCardService = new ReportCardService();
-        private List<TestDTO> testCollection = new List<TestDTO>(); 
+        private static List<TestDTO> testCollection = new List<TestDTO>(); 
         
 
         [HttpPost(Name = "gradeTest")]
@@ -18,13 +18,15 @@ namespace TestCoreAPI.Controllers
             return reportCardService.GradeTest(testDTO);
         }
 
-        [HttpPost(Name = "submitTests")]
-        public void submitTests(List<TestDTO> newTests)
+        [Route("submitTests")]
+        [HttpPost]
+        public void submitTests([FromBody]List<TestDTO> newTests)
         {
-            reportCardService.submitTests(newTests, testCollection);
+            testCollection.AddRange(newTests);
         }
 
-        [HttpGet(Name = "getTests")]
+        [Route("getTests")]
+        [HttpGet]
         public List<TestDTO> getTestCollection()
         {
             return testCollection;

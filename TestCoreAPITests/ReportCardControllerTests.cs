@@ -49,5 +49,16 @@ namespace TestCoreAPITests
             testCollection = reportCardController.getTestCollection();
             Assert.IsTrue(testCollection.Count == 4);
         }
+
+        [Test]
+        public void submitTests()
+        {
+            reportCardController.submitTests(testDTOs);
+            List<TestDTO> testDTOCollection = reportCardController.getTestCollection();
+            Assert.IsTrue(testDTOCollection.Count == 4, "Count should be 4");
+            reportCardController.submitTests(testDTOs);
+            Assert.IsTrue(testDTOCollection.Count == 8, "Count should be 8");
+
+        }
     }
 }

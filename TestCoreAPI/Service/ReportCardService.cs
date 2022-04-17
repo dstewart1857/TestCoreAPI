@@ -38,11 +38,6 @@ namespace TestCoreAPI.Service
                 return "F";
         }
 
-        public void submitTests(List<TestDTO> newTests, List<TestDTO> testDTOs)
-        {
-            testDTOs.AddRange(newTests);
-        }
-
         public List<ReportCardDTO> sortGrades(List<TestDTO> testDTOList, int sortMethod)
         {
             List<ReportCardDTO> reportCardDTOs = new List<ReportCardDTO>();
