@@ -35,10 +35,7 @@ namespace TestCoreAPI.Controllers
         [HttpGet]
         public List<ReportCardDTO> sortedGrades(int sortMethod)
         {
-            List<ReportCardDTO> reportCardCollection = reportCardService.sortGrades(testCollection, sortMethod);
-            return reportCardCollection;
+            return null;
         }
-
-
     }
 }

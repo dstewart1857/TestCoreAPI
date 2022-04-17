@@ -38,49 +38,5 @@ namespace TestCoreAPITests
             testDTO.score = score;
             return testDTO;
         }
-
-        [Test]
-        public void Test_GetTests()
-        {
-            List<TestDTO> testCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testCollection != null);
-            Assert.IsTrue(testCollection.Count == 0);
-            reportCardController.submitTests(testDTOs);
-            testCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testCollection.Count == 4);
-        }
-
-        [Test]
-        public void submitTests()
-        {
-            reportCardController.submitTests(testDTOs);
-            List<TestDTO> testDTOCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testDTOCollection.Count == 4, "Count should be 4");
-            reportCardController.submitTests(testDTOs);
-            Assert.IsTrue(testDTOCollection.Count == 8, "Count should be 8");
-
-        }
-
-        [Test]
-        public void Test_SortTestsByName()
-        {
-            reportCardController.submitTests(testDTOs);
-            List<ReportCardDTO> reportCardCollection = reportCardController.sortedGrades(0);
-            Assert.IsTrue(reportCardCollection.ElementAt(0).studentName.CompareTo("Bucky Goldstein") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(1).studentName.CompareTo("JoJo McFarland") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(2).studentName.CompareTo("Sally Jessie Raphael") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(3).studentName.CompareTo("Zeke T. Prescott, III") == 0);
-        }
-
-        [Test]
-        public void Test_SortTestsByGrade()
-        {
-            reportCardController.submitTests(testDTOs);
-            List<ReportCardDTO> reportCardCollection = reportCardController.sortedGrades(1);
-            Assert.IsTrue(reportCardCollection.ElementAt(0).grade.CompareTo("B") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(1).grade.CompareTo("C") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(2).grade.CompareTo("D") == 0);
-            Assert.IsTrue(reportCardCollection.ElementAt(3).grade.CompareTo("F") == 0);
-        }
     }
 }
