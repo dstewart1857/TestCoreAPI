@@ -37,5 +37,29 @@ namespace TestCoreAPI.Service
             else
                 return "F";
         }
+
+        public List<ReportCardDTO> sortGrades(List<TestDTO> testDTOList, int sortMethod)
+        {
+            List<ReportCardDTO> reportCardDTOs = new List<ReportCardDTO>();
+
+            testDTOList.ForEach(testDTO => reportCardDTOs.Add(GradeTest(testDTO)));
+
+            if (sortMethod == 0)
+                return sortByStudentName(reportCardDTOs);
+            else
+                return sortByGrade(reportCardDTOs);
+
+            return reportCardDTOs;
+        }
+
+        private List<ReportCardDTO> sortByStudentName(List<ReportCardDTO> reportCardDTOs)
+        {
+            return reportCardDTOs.OrderBy(reportCardDTO => reportCardDTO.studentName).ToList();
+        }
+
+        private List<ReportCardDTO> sortByGrade(List<ReportCardDTO> reportCardDTOs)
+        {
+            return reportCardDTOs.OrderBy(reportCardDTO=> reportCardDTO.grade).ToList();
+        }
     }
 }
