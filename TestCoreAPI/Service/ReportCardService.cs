@@ -48,8 +48,6 @@ namespace TestCoreAPI.Service
                 return sortByStudentName(reportCardDTOs);
             else
                 return sortByGrade(reportCardDTOs);
-
-            return reportCardDTOs;
         }
 
         private List<ReportCardDTO> sortByStudentName(List<ReportCardDTO> reportCardDTOs)

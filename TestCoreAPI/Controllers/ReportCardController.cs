@@ -31,5 +31,15 @@ namespace TestCoreAPI.Controllers
         {
             return testCollection;
         }
+
+        [Route("sortedGrades")]
+        [HttpGet]
+        public List<ReportCardDTO> sortedGrades(int sortMethod)
+        {
+            List<ReportCardDTO> reportCardCollection = reportCardService.sortGrades(testCollection, sortMethod);
+            return reportCardCollection;
+        }
+
+
     }
 }
