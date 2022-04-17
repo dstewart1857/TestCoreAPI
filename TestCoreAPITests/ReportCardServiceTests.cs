@@ -38,15 +38,5 @@ namespace TestCoreAPITests
             testDTO.score = score;
             return testDTO;
         }
-
-        [Test]
-        public void SortReportCardsByGrade()
-        {
-            List<ReportCardDTO> reportCardDTOs = reportCardService.sortGrades(testDTOs, 1);
-            Assert.IsTrue(reportCardDTOs.ElementAt(0).grade.CompareTo("B") == 0, "Grade should equal 'B'");
-            Assert.IsTrue(reportCardDTOs.ElementAt(1).grade.CompareTo("C") == 0, "Grade should equal 'C'");
-            Assert.IsTrue(reportCardDTOs.ElementAt(2).grade.CompareTo("D") == 0, "Grade should equal 'D'");
-            Assert.IsTrue(reportCardDTOs.ElementAt(3).grade.CompareTo("F") == 0, "Grade should equal 'F'");
-        }
     }
 }

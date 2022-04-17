@@ -38,27 +38,5 @@ namespace TestCoreAPITests
             testDTO.score = score;
             return testDTO;
         }
-
-        [Test]
-        public void Test_GetTests()
-        {
-            List<TestDTO> testCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testCollection != null);
-            Assert.IsTrue(testCollection.Count == 0);
-            reportCardController.submitTests(testDTOs);
-            testCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testCollection.Count == 4);
-        }
-
-        [Test]
-        public void submitTests()
-        {
-            reportCardController.submitTests(testDTOs);
-            List<TestDTO> testDTOCollection = reportCardController.getTestCollection();
-            Assert.IsTrue(testDTOCollection.Count == 4, "Count should be 4");
-            reportCardController.submitTests(testDTOs);
-            Assert.IsTrue(testDTOCollection.Count == 8, "Count should be 8");
-
-        }
     }
 }

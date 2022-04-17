@@ -22,14 +22,13 @@ namespace TestCoreAPI.Controllers
         [HttpPost]
         public void submitTests([FromBody]List<TestDTO> newTests)
         {
-            testCollection.AddRange(newTests);
         }
 
         [Route("getTests")]
         [HttpGet]
         public List<TestDTO> getTestCollection()
         {
-            return testCollection;
+            return null;
         }
     }
 }
