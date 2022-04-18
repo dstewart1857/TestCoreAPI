@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TestCoreAPI.Controllers
 {
@@ -8,6 +9,7 @@ namespace TestCoreAPI.Controllers
     {
 
         [HttpGet(Name = "simpleMath")]
+        [SwaggerOperation(Summary = "-- Performs a specified operation between two provided operands. Available operations: A or a - add, S or s - subtract, M or m - multiply, R or r - remainder")]
         public float simpleMath(float operandOne, float operandTwo, char operation)
         {
             float result;

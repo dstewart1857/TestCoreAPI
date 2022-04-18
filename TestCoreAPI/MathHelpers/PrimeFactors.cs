@@ -23,7 +23,22 @@ namespace TestCoreAPI.MathHelpers
         public List<int> GetPrimeFactors(int number)
         {
             List<int> primeFactors = new List<int>();
-            
+
+            if (number == 1)
+            {
+                primeFactors.Add(1);
+            }
+            else
+            {
+                for (int i = 2; number > 1; i++)
+                {
+                    for (; number % i == 0; number /= i)
+                    {
+                        primeFactors.Add(i);
+                    }
+                }
+            }
+
             return primeFactors;
         }
     }

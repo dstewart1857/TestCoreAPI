@@ -22,27 +22,13 @@ namespace TestCoreAPITests
         [TestCase(2, "2")]
         [TestCase(3, "3")]
         [TestCase(4, "2,2")]
+        [TestCase(10, "2,5")]
+        [TestCase(100, "2,2,5,5")]
         [Parallelizable(ParallelScope.All)]
         public void PrimeFactorsOfNumber(int testNumber, String expected)
         {
             List<int> resultList = primeFactors.GetPrimeFactors(testNumber);
             String result = String.Join(",", resultList);
-            if (result.CompareTo(expected) == 0)
-            {
-                Console.WriteLine(result);
-            }
-            Assert.IsTrue(result.CompareTo(expected) == 0, "The result should equal: " + expected + " but it was: " + result);
-        }
-
-        [Test]
-        [TestCase(1, "1 = 1")]
-        [TestCase(2, "2 = 2")]
-        [TestCase(3, "3 = 3")]
-        [TestCase(4, "2 x 2 = 4")]
-        [Parallelizable(ParallelScope.All)]
-        public void PrimeFactorsEquationOfNumber(int testNumber, String expected)
-        {
-            String result = primeFactors.GetPrimeFactorsAsEquation(testNumber);
             if (result.CompareTo(expected) == 0)
             {
                 Console.WriteLine(result);

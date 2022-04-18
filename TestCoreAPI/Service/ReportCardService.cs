@@ -17,7 +17,42 @@ namespace TestCoreAPI.Service
 
         private string getGrade(int score)
         {
-            return "A";
+            String grade;
+
+            switch(score)
+            {
+                case >= 90 and <= 100:
+                    {
+                        grade = "A";
+                        break;
+                    }
+                case >= 80 and < 90: 
+                    {
+                        grade = "B";
+                        break;
+                    }
+                case >= 70 and < 80:
+                    {
+                        grade = "C";
+                        break;
+                    }
+                case >= 60 and < 70:
+                    {
+                        grade = "D";
+                        break;
+                    }
+                case >= 0 and < 60:
+                    {
+                        grade = "F";
+                        break;
+                    }
+                default:
+                    {
+                        grade = "U";
+                        break;
+                    }
+            }
+            return grade;
         }
     }
 }

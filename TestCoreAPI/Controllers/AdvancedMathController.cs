@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TestCoreAPI.Controllers
 {
@@ -9,13 +10,11 @@ namespace TestCoreAPI.Controllers
         [HttpGet(Name = "AdvancedMath")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "-- Similar to the SimpleMath endpoint but with added functionality.",
+            Description = "An operation is performed between two provided numbers. Operations are represented by a single letter (upper or lower case). Available operations are: A - add, S - subtract, M - multiply, D - divide and R - remainder")]
         public ActionResult<float> AdvancedMath(float operandOne, float operandTwo, char operation)
         {
             float result;
-
-            // Check for invalid entries
-            if (operation == '\0')
-                return BadRequest("An operation was NOT specified!  Please select one of the available operations:\nA = add\nS = subtract\nM = multiply\nD = divide\nR = remainder");
 
             switch (Char.ToUpper(operation))
             {
@@ -46,15 +45,12 @@ namespace TestCoreAPI.Controllers
                     }
                 default:
                     {
-                        result = -1;
-                        break;
+                        return BadRequest("The provided operation '" + operation + "' is not supported!  Please select one of the available operations:\nA = add\nS = subtract\nM = multiply\nD = divide\nR = remainder");
                     }
             }
 
             return result;
         }
 
-
     }
-
 }

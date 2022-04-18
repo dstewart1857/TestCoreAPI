@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Immutable;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TestCoreAPI.Controllers
 {
@@ -23,6 +24,7 @@ namespace TestCoreAPI.Controllers
         });
 
         [HttpGet(Name = "magic8Ball")]
+        [SwaggerOperation(Summary = "-- Provides an answer for any question you might have!")]
         public String magic8Ball()
         {
             String result;
