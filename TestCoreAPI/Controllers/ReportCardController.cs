@@ -42,7 +42,7 @@ namespace TestCoreAPI.Controllers
         [HttpGet]
         public List<ClassAveragesDTO> getAverageMetricsByClass()
         {
-            return reportCardService.getAverageMetricsByClass(testCollection);
+            return null;
         }
 
 
