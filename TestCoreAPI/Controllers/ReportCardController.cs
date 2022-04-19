@@ -40,6 +40,13 @@ namespace TestCoreAPI.Controllers
             return reportCardCollection;
         }
 
+        [Route("getAverageMetricsByClass")]
+        [HttpGet]
+        public List<ClassAveragesDTO> getAverageMetricsByClass()
+        {
+            return reportCardService.getAverageMetricsByClass(testCollection);
+        }
+
 
     }
 }

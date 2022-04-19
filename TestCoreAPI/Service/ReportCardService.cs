@@ -40,14 +40,66 @@ namespace TestCoreAPI.Service
 
         public List<ReportCardDTO> sortGrades(List<TestDTO> testDTOList, int sortMethod)
         {
-            List<ReportCardDTO> reportCardDTOs = new List<ReportCardDTO>();
-
-            testDTOList.ForEach(testDTO => reportCardDTOs.Add(GradeTest(testDTO)));
+            List<ReportCardDTO> reportCardDTOs = getReportCardDTOs(testDTOList);
 
             if (sortMethod == 0)
                 return sortByStudentName(reportCardDTOs);
             else
                 return sortByGrade(reportCardDTOs);
+        }
+
+        public List<ClassAveragesDTO> getAverageMetricsByClass(List<TestDTO> testCollection)
+        {
+            List<ClassAveragesDTO> classMetrics = new List<ClassAveragesDTO>();
+            Dictionary<String, List<TestDTO>> testsByClass = new Dictionary<string, List<TestDTO>>();
+
+            SplitTestsByClass(testCollection, testsByClass);
+           
+            foreach (var testList in testsByClass.Values)
+            {
+                classMetrics.Add(getClassAveragesDTO(testList));
+            }
+
+            return classMetrics;
+        }
+
+        private ClassAveragesDTO getClassAveragesDTO(List<TestDTO> testList)
+        {
+            List<ReportCardDTO> reportCardList = getReportCardDTOs(testList);
+            ClassAveragesDTO classAveragesDTO = new ClassAveragesDTO();
+            classAveragesDTO.className = testList.ElementAt(0).className;
+            classAveragesDTO.averageScore = (float)testList.Average(test => test.score);
+            classAveragesDTO.averageGrade = getGrade((int)classAveragesDTO.averageScore);
+            return classAveragesDTO;
+        }
+
+        private void SplitTestsByClass(List<TestDTO> testCollection, Dictionary<string, List<TestDTO>> testsByClass)
+        {
+            testCollection.ForEach(test => insertIntoClassList(test, testsByClass));
+
+        }
+
+        private void insertIntoClassList(TestDTO test, Dictionary<string, List<TestDTO>> testsByClass)
+        {
+            List<TestDTO> classTests = null;
+            try
+            {
+                classTests = testsByClass[test.className];
+            }
+            catch (System.Collections.Generic.KeyNotFoundException ex)
+            {
+                classTests = new List<TestDTO>();
+                testsByClass.Add(test.className, classTests);
+            }
+            
+            classTests.Add(test);
+        }
+
+        private List<ReportCardDTO> getReportCardDTOs(List<TestDTO> testCollection)
+        {
+            List<ReportCardDTO> reportCardDTOs = new List<ReportCardDTO>();
+            testCollection.ForEach(testDTO => reportCardDTOs.Add(GradeTest(testDTO)));
+            return reportCardDTOs;
         }
 
         private List<ReportCardDTO> sortByStudentName(List<ReportCardDTO> reportCardDTOs)
