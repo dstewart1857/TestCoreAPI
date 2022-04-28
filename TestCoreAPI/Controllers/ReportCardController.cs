@@ -45,6 +45,11 @@ namespace TestCoreAPI.Controllers
             return null;
         }
 
-
+        [Route("getCandlestickChartData")]
+        [HttpGet]
+        public List<CandlestickDTO> getCandlestickChartData()
+        {
+            return reportCardService.getCandlestickChartData(testCollection);
+        }
     }
 }
