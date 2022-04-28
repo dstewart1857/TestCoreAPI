@@ -37,5 +37,10 @@ namespace TestCoreAPI.Service
             else
                 return "F";
         }
+
+        internal List<CandlestickDTO> getCandlestickChartData(List<TestDTO> testCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
