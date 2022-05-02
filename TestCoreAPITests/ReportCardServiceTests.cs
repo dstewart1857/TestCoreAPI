@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestCoreAPI.DTO;
 using TestCoreAPI.Service;
 
@@ -12,31 +8,38 @@ namespace TestCoreAPITests
     [TestFixture]
     internal class ReportCardServiceTests
     {
-        public List<TestDTO> testDTOs = new List<TestDTO>();
-        public ReportCardService reportCardService = new ReportCardService();
+        public ReportCardService reportCardService = new();
 
         [SetUp]
         public void Setup()
         {
-            initializeTestDTOs(testDTOs);
         }
 
-        private void initializeTestDTOs(List<TestDTO> testDTOs)
+        private static readonly object[] ScoreToGrade_TestCases =
         {
-            testDTOs.Add(getTestDTO("English 2010", "Bucky Goldstein", "Shakesphere's 50K Word Vocabulary", 88));
-            testDTOs.Add(getTestDTO("English 2010", "Zeke T. Prescott, III", "Shakesphere's 50K Word Vocabulary", 61));
-            testDTOs.Add(getTestDTO("English 2010", "Sally Jessie Raphael", "Shakesphere's 50K Word Vocabulary", 74));
-            testDTOs.Add(getTestDTO("English 2010", "JoJo McFarland", "Shakesphere's 50K Word Vocabulary",31));
+            new TestCaseData(new TestDTO("Don", "French", "FINAL", 100), "A").SetName("A_UpperBound"),
+            new TestCaseData(new TestDTO("Becky", "Math", "MID-TERM", 90), "A").SetName("A_LowerBound"),
+            new TestCaseData(new TestDTO("Joe", "Algebra", "FINAL", 89), "B").SetName("B_UpperBound"),
+            new TestCaseData(new TestDTO("Fred", "English", "MID-TERM", 80), "B").SetName("B_LowerBound"),
+            new TestCaseData(new TestDTO("Micky", "Literature", "FINAL", 79), "C").SetName("C_UpperBound"),
+            new TestCaseData(new TestDTO("Minnie", "Fantasy", "MID-TERM", 70), "C").SetName("C_LowerBound"),
+            new TestCaseData(new TestDTO("Lou", "Science", "FINAL", 69), "D").SetName("D_UpperBound"),
+            new TestCaseData(new TestDTO("Leslie", "Geometry", "MID-TERM", 60), "D").SetName("D_LowerBound"),
+            new TestCaseData(new TestDTO("Frank", "Biology", "FINAL", 59), "F").SetName("F_UpperBound"),
+            new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", 0), "F").SetName("F_LowerBound"),
+            new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", 101), "U").SetName("ScoreGreaterThan100"),
+            new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", -1), "U").SetName("ScoreLessThan0")
+        };
+
+        [TestCaseSource(nameof(ScoreToGrade_TestCases))]
+        public void VerifyTestGrade(TestDTO testScoreInfo, String expectedGrade)
+        {
+            ReportCardDTO reportCard =reportCardService.GradeTest(testScoreInfo);
+
+            Assert.IsTrue(reportCard.StudentName.CompareTo(testScoreInfo.studentName) == 0, "The studentName should equal: " + testScoreInfo.studentName + " but it was: " + reportCard.StudentName);
+            Assert.IsTrue(reportCard.ClassName.CompareTo(testScoreInfo.className) == 0, "The className should equal: " + testScoreInfo.className + " but it was: " + reportCard.ClassName);
+            Assert.IsTrue(reportCard.Grade.CompareTo(expectedGrade) == 0, "The grade should equal: " + expectedGrade + ", but it was: " + reportCard.Grade);
         }
 
-        private TestDTO getTestDTO(String className, String studentName, String testName, int score)
-        {
-            TestDTO testDTO = new TestDTO();
-            testDTO.className = className;
-            testDTO.studentName = studentName;
-            testDTO.testName = testName;
-            testDTO.score = score;
-            return testDTO;
-        }
     }
 }

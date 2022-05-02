@@ -4,13 +4,13 @@
     {  
         public ReportCardDTO()
         {
-            studentName = "studentName";
-            className = "className";
-            grade = "";
+            StudentName = "studentName";
+            ClassName = "className";
+            Grade = "";
         }
 
-        public String studentName { get; set; }
-        public String className { get; set; }
-        public String grade { get; set; }
+        public String StudentName { get; set; }
+        public String ClassName { get; set; }
+        public String Grade { get; set; }
     }
 }

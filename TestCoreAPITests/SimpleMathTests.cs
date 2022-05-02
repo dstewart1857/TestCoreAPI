@@ -6,9 +6,9 @@ using TestCoreAPI.Controllers;
 namespace TestCoreAPITests
 {
     [TestFixture]
-    public class SimpleMathTests
+    public class SimpleMathControllerTests
     {
-        private SimpleMathController simpleMathController = new SimpleMathController();
+        private SimpleMathController simpleMathController = new();
 
         [SetUp]
         public void Setup()
@@ -96,7 +96,7 @@ namespace TestCoreAPITests
             Assert.IsTrue(result.CompareTo(expectedValue) == 0, "The result should equal: " + expectedValue + " but it was: " + result);
         }
 
-        [Test]
+        [Test(Description="Tests math remainder operation and displays equation & answer on the console.")]
         public void SimpleMathRemainderWithConsoleLog()
         {
             String expectedValue = "0.50";

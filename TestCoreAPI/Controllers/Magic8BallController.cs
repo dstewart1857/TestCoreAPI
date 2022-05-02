@@ -25,10 +25,10 @@ namespace TestCoreAPI.Controllers
 
         [HttpGet(Name = "magic8Ball")]
         [SwaggerOperation(Summary = "-- Provides an answer for any question you might have!")]
-        public String magic8Ball()
+        public String Magic8Ball()
         {
             String result;
-            Random random = new Random();
+            Random random = new();
             int selection = random.Next(responses.Length);
             try
             {

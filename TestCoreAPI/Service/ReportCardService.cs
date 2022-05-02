@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using TestCoreAPI.DTO;
+﻿using TestCoreAPI.DTO;
 
 namespace TestCoreAPI.Service
 {
@@ -7,16 +6,16 @@ namespace TestCoreAPI.Service
     {
         public ReportCardDTO GradeTest(TestDTO testDTO)
         {
-            ReportCardDTO reportCardDTO = new ReportCardDTO();
+            ReportCardDTO reportCardDTO = new();
 
-            reportCardDTO.studentName = testDTO.studentName;
-            reportCardDTO.className = testDTO.className;
-            reportCardDTO.grade = getGrade(testDTO.score);
+            reportCardDTO.StudentName = testDTO.studentName;
+            reportCardDTO.ClassName = testDTO.className;
+            reportCardDTO.Grade = GetGrade(testDTO.score);
 
             return reportCardDTO;
         }
 
-        private string getGrade(int score)
+        private static string GetGrade(int score)
         {
             String grade;
 
@@ -54,25 +53,7 @@ namespace TestCoreAPI.Service
                     }
             }
             return grade;
-        }
-            if (score >= 90)
-            {
-                return "A";
-            }
-            else if (score >= 80)
-            {
-                return "B";
-            }
-            else if (score >= 70)
-            {
-                return "C";
-            }
-            else if (score >= 60)
-            {
-                return "D";
-            }
-            else
-                return "F";
+
         }
     }
 }

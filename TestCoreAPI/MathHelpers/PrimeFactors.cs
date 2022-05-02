@@ -13,7 +13,9 @@ namespace TestCoreAPI.MathHelpers
 
             primeFactors.ForEach(factor => result += factor + " x ");
 
+#pragma warning disable IDE0057 // Use range operator
             result = result.Substring(0, result.Length - 2);
+#pragma warning restore IDE0057 // Use range operator
 
             result += "= " + number;
             
@@ -22,7 +24,7 @@ namespace TestCoreAPI.MathHelpers
 
         public List<int> GetPrimeFactors(int number)
         {
-            List<int> primeFactors = new List<int>();
+            List<int> primeFactors = new();
 
             if (number == 1)
             {
