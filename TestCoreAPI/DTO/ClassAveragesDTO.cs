@@ -2,8 +2,15 @@
 {
     public class ClassAveragesDTO
     {
-        public String className { get; set; }
-        public String averageGrade { get; set; }
-        public float averageScore { get; set; }
+        public ClassAveragesDTO(string className, string averageGrade, float averageScore)
+        {
+            ClassName = className;
+            AverageGrade = averageGrade;
+            AverageScore = averageScore;
+        }
+
+        public String ClassName { get; set; }
+        public String AverageGrade { get; set; }
+        public float AverageScore { get; set; }
     }
 }

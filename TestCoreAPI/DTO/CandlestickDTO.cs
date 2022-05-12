@@ -2,10 +2,19 @@
 {
     public class CandlestickDTO
     {
-        public String title { get; set; }
-        public float max { get; set; }
-        public float quartile3 { get; set; }
-        public float quartile1 { get; set; }
-        public float min { get; set; }
+        public CandlestickDTO(string title, float max, float quartile3, float quartile1, float min)
+        {
+            Title = title;
+            Max = max;
+            Quartile3 = quartile3;
+            Quartile1 = quartile1;
+            Min = min;
+        }
+
+        public String Title { get; set; }
+        public float Max { get; set; }
+        public float Quartile3 { get; set; }
+        public float Quartile1 { get; set; }
+        public float Min { get; set; }
     }
 }

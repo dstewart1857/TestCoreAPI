@@ -6,6 +6,7 @@ using TestCoreAPI.Controllers;
 namespace TestCoreAPITests
 {
     [TestFixture]
+    [Parallelizable]
     public class SimpleMathControllerTests
     {
         private SimpleMathController simpleMathController = new();

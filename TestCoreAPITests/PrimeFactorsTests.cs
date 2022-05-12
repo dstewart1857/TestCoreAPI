@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace TestCoreAPITests
 {
     [TestFixture]
+    [Parallelizable]
     public class PrimeFactorsTests
     {
         private PrimeFactors primeFactors = new();
@@ -56,7 +57,6 @@ namespace TestCoreAPITests
         [TestCase(4, "2,2")]
         [TestCase(10, "2,5")]
         [TestCase(100, "2,2,5,5")]
-        [Parallelizable(ParallelScope.All)]
         public void PrimeFactorsOfNumber(int testNumber, String expected)
         {
             List<int> resultList = primeFactors.GetPrimeFactors(testNumber);
@@ -69,7 +69,6 @@ namespace TestCoreAPITests
         }
 
         [TestCaseSource(nameof(getPrimeFactorsData))]
-        [Parallelizable(ParallelScope.All)]
         public String PrimeFactorsEquationOfNumber(int testNumber)
         {
             String result = primeFactors.GetPrimeFactorsAsEquation(testNumber);

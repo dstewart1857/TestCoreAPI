@@ -7,6 +7,7 @@ using TestCoreAPI.Controllers;
 namespace TestCoreAPITests
 {
     [TestFixture]
+    [Parallelizable]
     public class Magic8BallControllerTests
     {
         private Magic8BallController magic8BallController = new();

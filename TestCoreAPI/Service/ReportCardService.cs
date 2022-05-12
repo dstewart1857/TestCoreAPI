@@ -1,5 +1,7 @@
 ﻿using TestCoreAPI.DTO;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("TestCoreAPITests")]
 namespace TestCoreAPI.Service
 {
     public class ReportCardService
@@ -15,7 +17,7 @@ namespace TestCoreAPI.Service
             return reportCardDTO;
         }
 
-        private static string GetGrade(int score)
+        internal string GetGrade(int score)
         {
             String grade;
 
@@ -56,9 +58,143 @@ namespace TestCoreAPI.Service
 
         }
 
-        internal List<CandlestickDTO> getCandlestickChartData(List<TestDTO> testCollection)
+        internal List<CandlestickDTO>? GetCandlestickChartData(List<TestDTO> testCollection)
         {
-            throw new NotImplementedException();
+            if(testCollection.Count == 0)
+            {
+                return null;
+            }
+
+            List<CandlestickDTO> candlestickData = new();
+            List<string> classNames = new();
+
+            // Get list of class names in testCollection
+            foreach (TestDTO testDTO in testCollection)
+            {
+                if(!classNames.Contains(testDTO.className))
+                {
+                    classNames.Add(testDTO.className);
+                }
+            }
+
+            // Get scores for each class and calculate quartiles
+            foreach(string className in classNames)
+            {
+                // Get test scores for each class
+                List<int> classTestScores = new();
+                foreach (TestDTO testDTO in testCollection)
+                {
+                    if (testDTO.className == className)
+                    {
+                        classTestScores.Add(testDTO.score);
+                    }
+                }
+
+                // Check if at least 4 test scores exist for the class
+                if(classTestScores.Count < 4)
+                {
+                    return null;
+                }
+
+                classTestScores.Sort();
+
+                CandlestickDTO candlestickDTO = GetQuartiles(classTestScores.ToArray());
+                candlestickDTO.Title = className;
+                candlestickData.Add(candlestickDTO);
+            }
+
+            return candlestickData;
         }
+
+        internal CandlestickDTO GetQuartiles(int[] classTestScores)
+        {
+            int numOfTestScores = classTestScores.Length;
+            int middleIndex = numOfTestScores / 2; //Index of middle test score
+            int halfMidIndex = middleIndex / 2;  // Index of half of test scores
+
+            float firstQuartile;
+            float thirdQuartile;
+
+            if (numOfTestScores % 2 == 0)
+            {
+                //********** Even number of elements in the test collection **********
+
+                if (middleIndex % 2 == 0)
+                {
+                    // Even number of elements in halves - calculate average of two middle elements
+                    firstQuartile = (float)(classTestScores[halfMidIndex - 1] + classTestScores[halfMidIndex]) / 2;
+                    thirdQuartile = (float)(classTestScores[middleIndex + halfMidIndex - 1] + classTestScores[middleIndex + halfMidIndex]) / 2;
+                }
+                else
+                {
+                    // Odd number of elements in halves
+                    firstQuartile = classTestScores[halfMidIndex];
+                    thirdQuartile = classTestScores[halfMidIndex + middleIndex];
+                }
+            }
+            else
+            {
+                //********** Odd number of elements in the test collection **********
+
+                if (middleIndex % 2 == 0)
+                {
+                    // Even number of elements in halves - calculate average of two middle elements
+                    firstQuartile = (float)(classTestScores[halfMidIndex - 1] + classTestScores[halfMidIndex]) / 2;
+                    thirdQuartile = (float)(classTestScores[middleIndex + halfMidIndex] + classTestScores[middleIndex + halfMidIndex + 1]) / 2;
+                }
+                else
+                {
+                    // Odd number of elements in halves
+                    firstQuartile = classTestScores[halfMidIndex];
+                    thirdQuartile = classTestScores[halfMidIndex + middleIndex + 1];
+                }
+
+
+/*
+//                float bottomMid = (float)(middleIndex-1) / 2;
+//                float leftNumber = classTestScores[(int)MathF.Floor(bottomMid)];
+//                float rightNumber = classTestScores[(int)MathF.Ceiling(bottomMid)];
+
+                int bottomMid = middleIndex / 2;
+                float leftNumber = classTestScores[bottomMid-1];
+                float rightNumber = classTestScores[bottomMid];
+
+                if (leftNumber == rightNumber)
+                {
+                    firstQuartile = leftNumber;
+                }
+                else
+                {
+                    firstQuartile = (leftNumber + rightNumber) / 2;
+                }
+
+//                float topMid = middleIndex + (float)(classTestScores.Length - middleIndex) / 2;
+//                leftNumber = classTestScores[(int)MathF.Floor(topMid)];
+//                rightNumber = classTestScores[(int)MathF.Ceiling(topMid)];
+
+                int topMid = middleIndex + bottomMid + 1;
+                leftNumber = classTestScores[topMid];
+                rightNumber = classTestScores[topMid+1];
+
+                if (leftNumber == rightNumber)
+                {
+                    thirdQuartile = leftNumber;
+                }
+                else
+                {
+                    thirdQuartile = (leftNumber + rightNumber) / 2;
+                }
+*/
+            }
+
+            float max = classTestScores[classTestScores.Length - 1];
+            CandlestickDTO candlestickDTO = new("", max, thirdQuartile, firstQuartile, classTestScores[0]);
+            return candlestickDTO;
+        }
+
+
+
+
+
     }
 }

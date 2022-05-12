@@ -9,8 +9,8 @@ namespace TestCoreAPI.Controllers
     [Route("[controller]")]
     public class ReportCardController : Controller
     {
-        private readonly ReportCardService reportCardService = new();
-        private static readonly List<TestDTO> testCollection = new(); 
+        private ReportCardService reportCardService = new();
+        private static List<TestDTO> testCollection = new();
 
         [HttpPost(Name = "gradeTest")]
         [SwaggerOperation(Summary = "-- Provides a letter grade for the submitted test score.",
@@ -36,6 +36,15 @@ namespace TestCoreAPI.Controllers
         public List<TestDTO> GetTestCollection()
         {
             return testCollection;
+        }
+
+        [Route("deleteAllTests")]
+        [HttpDelete]
+        [SwaggerOperation(Summary = "-- Deletes all test objects in the current test collection.",
+                        Description = "This will delete ALL tests that exist in the current test collection.")]
+        public void DeleteTestCollection()
+        {
+            testCollection.Clear();
         }
 
         [Route("sortedGrades")]
@@ -74,16 +83,51 @@ namespace TestCoreAPI.Controllers
 
         [Route("getAverageMetricsByClass")]
         [HttpGet]
-        public List<ClassAveragesDTO> getAverageMetricsByClass()
+        [SwaggerOperation(Summary = "-- Will analyze the data in the test collection and return a list of classes with the average score and grade.",
+                        Description = "The response for each class will be returned in a ClassAveragesDTO object which contains the className, averageGrade and averageScore fields.")]
+        public List<ClassAveragesDTO> GetAverageMetricsByClass()
         {
-            return null;
+            List<ClassAveragesDTO> classAverageCollection = new();
+            Dictionary<string, int> classScoresTotal = new();
+
+            // Get list of test scores and build dictionary of class name (key) / score (value)
+            foreach (TestDTO testDTO in testCollection)
+            {
+                if (classScoresTotal.ContainsKey(testDTO.className))
+                {
+                    classScoresTotal[testDTO.className] += testDTO.score;
+                }
+                else
+                {
+                    classScoresTotal.Add(testDTO.className, testDTO.score);
+                }
+            }
+
+            // Determine average score and grade for each class
+            foreach (string key in classScoresTotal.Keys)
+            {
+                float avgScore = (float)classScoresTotal[key] / (float)testCollection.FindAll(x => x.className == key).Count;
+                string avgGrade = reportCardService.GetGrade((int)(avgScore + 0.5));
+                classAverageCollection.Add(new ClassAveragesDTO(key, avgGrade, avgScore));
+            }
+
+            return classAverageCollection;
         }
 
         [Route("getCandlestickChartData")]
         [HttpGet]
-        public List<CandlestickDTO> getCandlestickChartData()
+        [SwaggerOperation(Summary = "-- Uses the current list of tests in the test collection and calculates the min, max, Q1, and Q3 values for each test.",
+                        Description = "Calculates the min, max, 1st and 3rd quartiles for each set of test scores in the test collection. Results are returned as a CandlestickDTO with the test name and the four values.")]
+        public ActionResult<List<CandlestickDTO>> GetCandlestickChartData()
         {
-            return reportCardService.getCandlestickChartData(testCollection);
+            List<CandlestickDTO>? candlestickCollection = reportCardService.GetCandlestickChartData(testCollection);
+
+            if (testCollection.Count < 4 || candlestickCollection == null)
+            {
+                return BadRequest(error: "Candlestick chart data connot be provided unless the test collection contains at least 4 test results for each class!");
+            }
+
+            return candlestickCollection;
         }
     }
 }

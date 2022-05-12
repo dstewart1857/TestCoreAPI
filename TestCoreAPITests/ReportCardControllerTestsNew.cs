@@ -7,42 +7,42 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TestCoreAPITests
 {
-    [TestFixture]
-    internal class ReportCardControllerTests
+    internal class ReportCardControllerTestsNew
     {
         public List<TestDTO> testDTOs = new();
         public List<TestDTO> largeSingleTestDTOs = new();
         public List<TestDTO> largeMultiTestDTOs = new();
         public ReportCardController reportCardController = new();
         private float expectedAvgScoreLargeMulti, expectedAvgScoreLargeSingle;
-
+/*
         [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             InitializeTestDTOs();
             Console.WriteLine("OneTimeSetup: Test collection was initialized with " + testDTOs.Count + " test objects.");
         }
-
+*/
         [SetUp]
         public void Setup()
         {
-            var currentTestName = TestContext.CurrentContext.Test.Name;
+/*            var currentTestName = TestContext.CurrentContext.Test.Name;
             Console.WriteLine("Executing setup for " + currentTestName);
-            switch(currentTestName)
+            switch (currentTestName)
             {
                 case "GetAvgMetricsByClass_LargeMultiTestCollection":
-                {
-                    reportCardController.SubmitTests(largeMultiTestDTOs);
-                    break;
-                }
+                    {
+                        reportCardController.SubmitTests(largeMultiTestDTOs);
+                        break;
+                    }
                 case "GetAvgMetricsByClass_LargeSingleTestCollection":
-                {
-                    reportCardController.SubmitTests(largeSingleTestDTOs);
-                    break;
-                }
-            }    
+                    {
+                        reportCardController.SubmitTests(largeSingleTestDTOs);
+                        break;
+                    }
+            }
+*/
         }
-
+/*
         private void InitializeTestDTOs()
         {
             testDTOs.Add(new TestDTO("Bucky Goldstein", "English 2010", "Shakesphere's 50K Word Vocabulary", 88));
@@ -57,7 +57,7 @@ namespace TestCoreAPITests
 
             // Test DTOs for large class single test collection set
             int classSizeSingle = 100;
-            int[] testScoresSingle = {73, 85};
+            int[] testScoresSingle = { 73, 85 };
             expectedAvgScoreLargeSingle = (float)(testScoresSingle[0] + testScoresSingle[1]) / (float)testScoresSingle.Length;
 
             for (int i = 1; i <= classSizeSingle; i++)
@@ -68,10 +68,10 @@ namespace TestCoreAPITests
 
             // Test DTOs for large class multi-test collection set
             int classSize = 50;
-            int[] testScores = {75, 85, 95, 80};
-            expectedAvgScoreLargeMulti = (float)(testScores[0]+testScores[1]+testScores[2]+testScores[3]) / (float)testScores.Length;
+            int[] testScores = { 75, 85, 95, 80 };
+            expectedAvgScoreLargeMulti = (float)(testScores[0] + testScores[1] + testScores[2] + testScores[3]) / (float)testScores.Length;
 
-            for(int i = 1; i <= classSize; i++)
+            for (int i = 1; i <= classSize; i++)
             {
                 largeMultiTestDTOs.Add(new TestDTO("Student_Large_" + i, "Class_LargeMulti-Test", "TestName_Large_1", testScores[0]));
                 largeMultiTestDTOs.Add(new TestDTO("Student_Large_" + i, "Class_LargeMulti-Test", "TestName_Large_2", testScores[1]));
@@ -80,33 +80,43 @@ namespace TestCoreAPITests
             }
         }
 
-        [Test, Order(10)]
+        private ReportCardController AddTestsToCollection(List<TestDTO> testList)
+        {
+            ReportCardController reportCardController = new();
+            reportCardController.SubmitTests(testList);
+            Assume.That(reportCardController.GetTestCollection().Count > 0, "The test list was not added to the collection!");
+            return reportCardController;
+        }
+
+
+        [Test]
         public void GetTestsListInitial()
         {
+            ReportCardController reportCardController = new();
             int testCollectionSize = reportCardController.GetTestCollection().Count;
             Console.WriteLine("Initial test collection size (before adding a test collection): " + testCollectionSize);
-
             Assert.IsTrue(testCollectionSize.CompareTo(0) == 0, "The initial collection size should be 0 but it was: " + testCollectionSize);
         }
 
-        [Test, Order(20)]
+        [Test]
         public void AddTestsToList()
         {
+            ReportCardController reportCardController = new();
             int testCollectionSizeBegin = reportCardController.GetTestCollection().Count;
             Console.WriteLine("Initial test collection size: " + testCollectionSizeBegin);
             reportCardController.SubmitTests(testDTOs);
             int testCollectionSizeEnd = reportCardController.GetTestCollection().Count;
             Console.WriteLine("After adding a test collection the size is: " + testCollectionSizeEnd);
 
-            Assert.IsTrue(testCollectionSizeBegin.CompareTo(testCollectionSizeEnd) < 0, "The collection size should be greater than the initial size. Expected: " + (testCollectionSizeBegin+testDTOs.Count) + " but it was: " + testCollectionSizeEnd);
+            Assert.IsTrue(testCollectionSizeBegin.CompareTo(testCollectionSizeEnd) < 0, "The collection size should be greater than the initial size. Expected: " + (testCollectionSizeBegin + testDTOs.Count) + " but it was: " + testCollectionSizeEnd);
         }
 
-        [Test, Order(30)]
+        [Test]
         public void GetTestsList()
         {
+            reportCardController = AddTestsToCollection(testDTOs);
             List<TestDTO> testCollection = reportCardController.GetTestCollection();
-            int testCollectionSize = testCollection.Count;
-
+            int testCollectionSize = reportCardController.GetTestCollection().Count;
             Assert.IsTrue(testCollectionSize.CompareTo(0) > 0, "The collection size should be greater than 0 but was: " + testCollectionSize);
 
             if (testCollectionSize > 0)
@@ -118,22 +128,23 @@ namespace TestCoreAPITests
                 }
             }
 
-            Assert.IsTrue(testCollectionSize == testDTOs.Count, "The collection size should be: " + testDTOs.Count + " But was: " + testCollectionSize);
+            Assert.IsTrue(testCollectionSize.CompareTo(testDTOs.Count) == 0, "The collection size should be: " + testDTOs.Count + " But was: " + testCollectionSize);
 
             // Verify contents of test list
             bool testExists = testCollection.Exists(x => x.studentName == testDTOs[0].studentName);
             Assert.IsTrue(testExists, "The test collection list does NOT contain a test with the student name of: " + testDTOs[0].studentName);
         }
 
-        [Test, Order(40)]
-        [TestCase(0, TestName="SortListByStudentName")]
-        [TestCase(1, TestName="SortListByGrade")]
+        [Test]
+        [TestCase(0, TestName = "SortListByStudentName")]
+        [TestCase(1, TestName = "SortListByGrade")]
         public void SortList(int sortMode)
         {
+            reportCardController = AddTestsToCollection(testDTOs);
             List<TestDTO> testCollection = reportCardController.GetTestCollection();
-            int testCollectionSize = reportCardController.GetTestCollection().Count;
+            int testCollectionSize = testCollection.Count;
 
-            Assert.IsTrue(testCollectionSize.CompareTo(0) > 0, "The collection size should be greater than 0 but was: " + testCollectionSize);
+            Assume.That(testCollectionSize.CompareTo(0) > 0, "The collection size should be greater than 0 but was: " + testCollectionSize);
 
             if (testCollectionSize > 0)
             {
@@ -157,7 +168,7 @@ namespace TestCoreAPITests
                 var reportCardDTOs = (List<ReportCardDTO>?)objectResult.Value;
                 if (reportCardDTOs != null)
                 {
-                    switch(sortMode)
+                    switch (sortMode)
                     {
                         case 0:
                             String studentName = reportCardDTOs[0].StudentName;
@@ -196,32 +207,33 @@ namespace TestCoreAPITests
         }
 
 
-        [Test, Order(11)]
+        [Test]
         public void GetAvgMetricsByClass_EmptyCollection()
         {
+            ReportCardController reportCardController = new();
             int listSize = reportCardController.GetAverageMetricsByClass().Count;
-
-            //Console.WriteLine("After adding a test collection the size is: " + testCollectionSizeEnd);
             Assert.IsTrue(listSize == 0, "The size of the average metrics list should be 0 for an empty test collection. Received a size of: " + listSize);
         }
 
-        [Test, Order(21)]
+        [Test]
         public void GetAvgMetricsByClass_InitialCollection()
         {
+            reportCardController = AddTestsToCollection(testDTOs);
             int listSize = reportCardController.GetAverageMetricsByClass().Count;
-
             //Console.WriteLine("After adding a test collection the size is: " + testCollectionSizeEnd);
             Assert.IsTrue(listSize == 2, "The size of the average metrics list should be 2 for the initial test collection. Received a size of: " + listSize);
         }
 
-        [Test, Order(50)]
+        [Test]
         public void GetAvgMetricsByClass_LargeSingleTestCollection()
         {
+            reportCardController = AddTestsToCollection(largeSingleTestDTOs);
+
             List<ClassAveragesDTO> classAveragesList = reportCardController.GetAverageMetricsByClass();
             int listSize = classAveragesList.Count;
 
             //Console.WriteLine("After adding a large single test collection the size is: " + testCollectionSizeEnd);
-            Assert.IsTrue(listSize == 3, "The size of the average metrics list should be 3 for the large single test collection. Received a size of: " + listSize);
+            Assert.IsTrue(listSize == 1, "The size of the average metrics list should be 1 for the large single test collection. Received a size of: " + listSize);
 
             ClassAveragesDTO? largeClass = classAveragesList.Find(x => x.ClassName == "Class_LargeSingleTest");
 
@@ -233,15 +245,16 @@ namespace TestCoreAPITests
             }
         }
 
-
-        [Test, Order(60)]
+        [Test]
         public void GetAvgMetricsByClass_LargeMultiTestCollection()
         {
+            reportCardController = AddTestsToCollection(largeMultiTestDTOs);
+
             List<ClassAveragesDTO> classAveragesList = reportCardController.GetAverageMetricsByClass();
             int listSize = classAveragesList.Count;
 
             //Console.WriteLine("After adding a large multi-test collection the size is: " + testCollectionSizeEnd);
-            Assert.IsTrue(listSize == 4, "The size of the average metrics list should be 4 for the large multi-test collection. Received a size of: " + listSize);
+            Assert.IsTrue(listSize == 1, "The size of the average metrics list should be 1 for the large multi-test collection. Received a size of: " + listSize);
 
             ClassAveragesDTO? largeClass = classAveragesList.Find(x => x.ClassName == "Class_LargeMulti-Test");
 
@@ -252,6 +265,6 @@ namespace TestCoreAPITests
                 Assert.IsTrue(largeClass.AverageGrade == "B", "Expected the average grade for the large multi-test class to be 'B'. Actual result: '" + largeClass.AverageGrade + "'");
             }
         }
-
+*/
     }
 }
