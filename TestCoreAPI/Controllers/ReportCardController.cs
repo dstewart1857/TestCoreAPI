@@ -71,5 +71,19 @@ namespace TestCoreAPI.Controllers
 
             return Ok(sortedReportCards);
         }
+
+        [Route("getAverageMetricsByClass")]
+        [HttpGet]
+        public List<ClassAveragesDTO> getAverageMetricsByClass()
+        {
+            return null;
+        }
+
+        [Route("getCandlestickChartData")]
+        [HttpGet]
+        public List<CandlestickDTO> getCandlestickChartData()
+        {
+            return reportCardService.getCandlestickChartData(testCollection);
+        }
     }
 }

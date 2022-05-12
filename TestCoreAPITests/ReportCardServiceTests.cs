@@ -29,6 +29,10 @@ namespace TestCoreAPITests
             new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", 0), "F").SetName("F_LowerBound"),
             new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", 101), "U").SetName("ScoreGreaterThan100"),
             new TestCaseData(new TestDTO("George", "Physics", "MID-TERM", -1), "U").SetName("ScoreLessThan0")
+
+            new TestCaseData(new TestDTO("Bucky Goldstein", "Math 3010", "4D Algorithims", 98), "A").SetName("ScoreLessThan0")
+            new TestCaseData(new TestDTO("Zeke T. Prescott, III", "Math 3010", "4D Algorithims", 67), "D").SetName("ScoreLessThan0")
+            new TestCaseData(new TestDTO("Wicket W. Warkick", "Math 3010", "4D Algorithims", 84), "B").SetName("ScoreLessThan0")
         };
 
         [TestCaseSource(nameof(ScoreToGrade_TestCases))]

@@ -55,5 +55,10 @@ namespace TestCoreAPI.Service
             return grade;
 
         }
+
+        internal List<CandlestickDTO> getCandlestickChartData(List<TestDTO> testCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
