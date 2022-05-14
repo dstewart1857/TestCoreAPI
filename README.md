@@ -1,5 +1,6 @@
 # TestCoreAPI
 My solutions for the QA coding challenges
+
 This repo contains the TestCoreAPI and TestCoreAPITest projects.
 
 The inital framework for these can be found at:
