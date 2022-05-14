@@ -150,7 +150,7 @@ namespace TestCoreAPITests
             Assert.IsInstanceOf<ActionResult<List<ReportCardDTO>>>(response, "The response to get sorted grades was not an instance of ActionResult<List<ReportCardDTO>>");
             Assert.IsInstanceOf<ObjectResult>(response.Result, "The response to get sorted grades was not an instance of ObjectResult");
 
-            var objectResult = (OkObjectResult?)response.Result;
+            var objectResult = (ObjectResult?)response.Result;
             if (objectResult != null)
             {
                 Assert.IsTrue(objectResult.StatusCode == 200);
@@ -252,6 +252,56 @@ namespace TestCoreAPITests
                 Assert.IsTrue(largeClass.AverageGrade == "B", "Expected the average grade for the large multi-test class to be 'B'. Actual result: '" + largeClass.AverageGrade + "'");
             }
         }
+
+        [Test, Order(70)]
+        public void GetCandlestickChartData_TooFewTests()
+        {
+            var response = reportCardController.GetCandlestickChartData();
+
+            var objectResult = (ObjectResult?)response.Result;
+            if (objectResult != null)
+            {
+                if(objectResult.StatusCode < 400)
+                {
+                    Assert.Fail("Expected an HTTP status code >= 400 but was " + objectResult.StatusCode + " instead.");
+                }
+            }
+            else
+            {
+                Assert.Fail("The response result was null when it was NOT expected to be.");
+            }
+        }
+
+        [Test, Order(80)]
+        public void GetCandlestickChartData_ValidData()
+        {
+            List<TestDTO> testDTOList = new();
+            testDTOList.Add(new TestDTO("Candlestick Check", "Math 3010", "4D Algorithims", 81));
+            reportCardController.SubmitTests(testDTOList);
+
+            var response = reportCardController.GetCandlestickChartData();
+
+            var objectResult = (ObjectResult?)response.Result;
+            if (objectResult != null)
+            {
+                if (objectResult.StatusCode != 200)
+                {
+                    Console.WriteLine(objectResult.Value);
+                    Assert.Fail("Expected an HTTP status code of 200 but was " + objectResult.StatusCode + " instead.");
+                }
+
+                var CandlestickDTOs = (List<CandlestickDTO>?)objectResult.Value;
+                if (CandlestickDTOs != null)
+                {
+                    Assert.IsTrue(CandlestickDTOs.Count == 4, "Expected the number of candlestick data objects to be: 4  Actual number received was: " + CandlestickDTOs.Count);
+                }
+            }
+            else
+            {
+                Assert.Fail("The response result was null when it was NOT expected to be.");
+            }
+        }
+
 
     }
 }

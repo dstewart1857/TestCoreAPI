@@ -17,7 +17,7 @@ namespace TestCoreAPITests
         {
         }
 
-        private List<String> getCsvTestScores(List<TestDTO> testCollection)
+        private List<String> GetCsvTestScores(List<TestDTO> testCollection)
         {
             List<String> testScoresList = new();
             List<string> classNames = new();
@@ -107,7 +107,7 @@ namespace TestCoreAPITests
             testCollection.Add(new TestDTO("Xander Jamson", "Math 3010", "4D Algorithms", 51));
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             Assert.IsNotNull(candlesticks, "A test collection with 4 tests in each class should result in a valid return value. Received a null response!");
 
@@ -159,7 +159,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_LargeSingle_" + i, "Class_LargeSingleTest", "TestName_Large_Single", testScoresSingle[x]+i));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
@@ -189,7 +189,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_LargeSingle_" + i, "Class_LargeSingleTest", "TestName_Large_Single", testScoresSingle[x] + i));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
@@ -219,7 +219,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_LargeSingle_" + i, "Class_LargeSingleTest", "TestName_Large_Single", testScoresSingle[x] + i));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
@@ -249,7 +249,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_LargeSingle_" + i, "Class_LargeSingleTest", "TestName_Large_Single", testScoresSingle[x] + i));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
@@ -280,7 +280,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_" + i, classNamesMulti[x], "TestName_" + classNamesMulti[x], testScores[x] + i));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 
@@ -331,7 +331,7 @@ namespace TestCoreAPITests
                 testCollection.Add(new TestDTO("Student_" + i, classNamesMulti[x], "TestName_" + classNamesMulti[x], testScores[x] + i/2));
             }
 
-            //List<String> csvTestScoresList = getCsvTestScores(testCollection);
+            //List<String> csvTestScoresList = GetCsvTestScores(testCollection);
 
             List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
 

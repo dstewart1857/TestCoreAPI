@@ -1,5 +1,6 @@
 ﻿using TestCoreAPI.DTO;
 using System.Runtime.CompilerServices;
+using System.Net;
 
 [assembly: InternalsVisibleTo("TestCoreAPITests")]
 namespace TestCoreAPI.Service
@@ -58,11 +59,11 @@ namespace TestCoreAPI.Service
 
         }
 
-        internal List<CandlestickDTO>? GetCandlestickChartData(List<TestDTO> testCollection)
+        internal List<CandlestickDTO> GetCandlestickChartData(List<TestDTO> testCollection)
         {
             if(testCollection.Count == 0)
             {
-                return null;
+                throw new ArgumentException("The test collection was empty!\nCandlestick chart data connot be provided unless the test collection contains at least 4 test results for each class!");
             }
 
             List<CandlestickDTO> candlestickData = new();
@@ -93,7 +94,7 @@ namespace TestCoreAPI.Service
                 // Check if at least 4 test scores exist for the class
                 if(classTestScores.Count < 4)
                 {
-                    return null;
+                    throw new ArgumentException("Did not find at least 4 tests for the " + className + " class!\nCandlestick chart data connot be provided unless the test collection contains at least 4 test results for each class!");
                 }
 
                 classTestScores.Sort();
@@ -148,51 +149,12 @@ namespace TestCoreAPI.Service
                     firstQuartile = classTestScores[halfMidIndex];
                     thirdQuartile = classTestScores[halfMidIndex + middleIndex + 1];
                 }
-
-
-/*
-//                float bottomMid = (float)(middleIndex-1) / 2;
-//                float leftNumber = classTestScores[(int)MathF.Floor(bottomMid)];
-//                float rightNumber = classTestScores[(int)MathF.Ceiling(bottomMid)];
-
-                int bottomMid = middleIndex / 2;
-                float leftNumber = classTestScores[bottomMid-1];
-                float rightNumber = classTestScores[bottomMid];
-
-                if (leftNumber == rightNumber)
-                {
-                    firstQuartile = leftNumber;
-                }
-                else
-                {
-                    firstQuartile = (leftNumber + rightNumber) / 2;
-                }
-
-//                float topMid = middleIndex + (float)(classTestScores.Length - middleIndex) / 2;
-//                leftNumber = classTestScores[(int)MathF.Floor(topMid)];
-//                rightNumber = classTestScores[(int)MathF.Ceiling(topMid)];
-
-                int topMid = middleIndex + bottomMid + 1;
-                leftNumber = classTestScores[topMid];
-                rightNumber = classTestScores[topMid+1];
-
-                if (leftNumber == rightNumber)
-                {
-                    thirdQuartile = leftNumber;
-                }
-                else
-                {
-                    thirdQuartile = (leftNumber + rightNumber) / 2;
-                }
-*/
             }
 
             float max = classTestScores[classTestScores.Length - 1];
             CandlestickDTO candlestickDTO = new("", max, thirdQuartile, firstQuartile, classTestScores[0]);
             return candlestickDTO;
         }
-
-
 
 
 

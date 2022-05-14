@@ -116,18 +116,21 @@ namespace TestCoreAPI.Controllers
 
         [Route("getCandlestickChartData")]
         [HttpGet]
-        [SwaggerOperation(Summary = "-- Uses the current list of tests in the test collection and calculates the min, max, Q1, and Q3 values for each test.",
-                        Description = "Calculates the min, max, 1st and 3rd quartiles for each set of test scores in the test collection. Results are returned as a CandlestickDTO with the test name and the four values.")]
+        [SwaggerOperation(Summary = "-- Uses the current list of tests in the test collection and calculates the min, max, Q1, and Q3 values for each class.",
+                        Description = "Calculates the min, max, 1st and 3rd quartiles for the test scores in each class. Results are returned as a CandlestickDTO with the class name and the four values.")]
         public ActionResult<List<CandlestickDTO>> GetCandlestickChartData()
         {
-            List<CandlestickDTO>? candlestickCollection = reportCardService.GetCandlestickChartData(testCollection);
-
-            if (testCollection.Count < 4 || candlestickCollection == null)
+            List<CandlestickDTO> candlestickCollection;
+            try
             {
-                return BadRequest(error: "Candlestick chart data connot be provided unless the test collection contains at least 4 test results for each class!");
+                candlestickCollection = reportCardService.GetCandlestickChartData(testCollection);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            return candlestickCollection;
+            return Ok(candlestickCollection);
         }
     }
 }
