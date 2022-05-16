@@ -82,8 +82,12 @@ namespace TestCoreAPITests
         public void GetCandlestickChartData_EmptyTestCollection()
         {
             List<TestDTO> testCollection = new();
-            List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
-            Assert.IsNull(candlesticks, "An empty test collection should result in a null return value. Did not receive a null value!");
+            var ex = Assert.Throws<ArgumentException>(() => reportCardService.GetCandlestickChartData(testCollection));
+            Assert.IsNotNull(ex, "Expected to receive a valid exception message. Instead, the exception message was null.");
+            if (ex != null)
+            {
+                Assert.That(ex.Message.Contains("collection was empty"), "Expected the exception message to contain 'collection was empty'. Instead, the following message was received:\n" + ex.Message);
+            }
         }
 
         [Test]
@@ -93,8 +97,12 @@ namespace TestCoreAPITests
             testCollection.Add(new TestDTO("George", "Physics", "MID-TERM", 68));
             testCollection.Add(new TestDTO("Fred", "Physics", "MID-TERM", 78));
             testCollection.Add(new TestDTO("Henry", "Physics", "MID-TERM", 95));
-            List<CandlestickDTO>? candlesticks = reportCardService.GetCandlestickChartData(testCollection);
-            Assert.IsNull(candlesticks, "A test collection with less than 4 tests in each class should result in a null return value. Did not receive a null value!");
+            var ex = Assert.Throws<ArgumentException>(() => reportCardService.GetCandlestickChartData(testCollection));
+            Assert.IsNotNull(ex, "Expected to receive a valid exception message. Instead, the exception message was null.");
+            if (ex != null)
+            {
+                Assert.That(ex.Message.Contains("Did not find at least 4 tests"), "Expected the exception message to contain 'Did not find at least 4 tests'. Instead, the following message was received:\n" + ex.Message);
+            }
         }
 
         [Test]
